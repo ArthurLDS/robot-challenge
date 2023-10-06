@@ -1,0 +1,131 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameRepositoryImplKt</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.robot_game_play.data</a>
+</div>
+
+<h1>Coverage Summary for Class: GameRepositoryImplKt (com.example.robot_game_play.data)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">GameRepositoryImplKt</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.robot_game_play.data
+&nbsp;
+&nbsp;import com.example.robot_game_play.domain.models.Character
+&nbsp;import com.example.robot_game_play.domain.models.CharacterDirection
+&nbsp;import com.example.robot_game_play.domain.repository.GameRepository
+&nbsp;import com.example.robot_game_play.presentation.theme.SnekBlue
+&nbsp;import com.example.robot_game_play.presentation.theme.SnekBlueHead
+&nbsp;import com.example.robot_game_play.presentation.theme.SnekGreen
+&nbsp;import com.example.robot_game_play.presentation.theme.SnekGreenHead
+&nbsp;import com.example.robot_game_play.presentation.theme.SnekOrange
+&nbsp;import com.example.robot_game_play.presentation.theme.SnekOrangeHead
+&nbsp;import com.example.robot_game_play.presentation.theme.SnekPink
+&nbsp;import com.example.robot_game_play.presentation.theme.SnekPinkHead
+&nbsp;
+&nbsp;private const val NUM_PLAYERS = 2 // MAX 4!!
+&nbsp;private const val BOARD_SIZE = 7
+&nbsp;
+&nbsp;class GameRepositoryImpl : GameRepository {
+&nbsp;
+&nbsp;    override fun getCharacters(quantity: Int, boardSize: Int): List&lt;Character&gt; = listOf(
+&nbsp;        Character(
+&nbsp;            body = listOf(Pair(0, boardSize - 1)),
+&nbsp;            number = 0,
+&nbsp;            currentDirection = CharacterDirection.RIGHT,
+&nbsp;            bodyColor = SnekPink,
+&nbsp;            headColor = SnekPinkHead,
+&nbsp;            score = 0
+&nbsp;        ),
+&nbsp;        Character(
+&nbsp;            body = listOf(Pair(boardSize - 1, 0)),
+&nbsp;            number = 1,
+&nbsp;            currentDirection = CharacterDirection.RIGHT,
+&nbsp;            bodyColor = SnekGreen,
+&nbsp;            headColor = SnekGreenHead,
+&nbsp;            score = 0
+&nbsp;        ),
+&nbsp;        Character(
+&nbsp;            body = listOf(Pair(0, 0)),
+&nbsp;            number = 2,
+&nbsp;            currentDirection = CharacterDirection.RIGHT,
+&nbsp;            bodyColor = SnekBlue,
+&nbsp;            headColor = SnekBlueHead,
+&nbsp;            score = 0
+&nbsp;        ),
+&nbsp;        Character(
+&nbsp;            body = listOf(Pair(boardSize, boardSize)),
+&nbsp;            number = 3,
+&nbsp;            currentDirection = CharacterDirection.RIGHT,
+&nbsp;            bodyColor = SnekOrange,
+&nbsp;            headColor = SnekOrangeHead,
+&nbsp;            score = 0
+&nbsp;        ),
+&nbsp;    ).take(quantity)
+&nbsp;
+&nbsp;    override fun getPlayersQuantity(): Int {
+&nbsp;        TODO(&quot;Not yet implemented&quot;)
+&nbsp;    }
+&nbsp;
+&nbsp;    override fun getBoardSize(): Int {
+&nbsp;        TODO(&quot;Not yet implemented&quot;)
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-05 20:14</div>
+</div>
+</body>
+</html>

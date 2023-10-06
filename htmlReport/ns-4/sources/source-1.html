@@ -1,0 +1,434 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameEngine</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.robot_game_play.domain.game</a>
+</div>
+
+<h1>Coverage Summary for Class: GameEngine (com.example.robot_game_play.domain.game)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GameEngine</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/146)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">GameEngine$WhenMappings</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/146)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.robot_game_play.domain.game
+&nbsp;
+&nbsp;import com.example.robot_game_play.domain.models.Character
+&nbsp;import com.example.robot_game_play.domain.models.GameState
+&nbsp;import com.example.robot_game_play.domain.models.CharacterDirection
+&nbsp;
+<b class="nc">&nbsp;class GameEngine {</b>
+&nbsp;    private var numCharacters: Int = 0
+&nbsp;    private var boardSize: Int = 0
+&nbsp;
+&nbsp;    fun initGameState(
+&nbsp;        characterList: List&lt;Character&gt;,
+&nbsp;        numCharacters: Int,
+&nbsp;        boardSize: Int
+&nbsp;    ): GameState {
+<b class="nc">&nbsp;        this.numCharacters = numCharacters</b>
+<b class="nc">&nbsp;        this.boardSize = boardSize</b>
+&nbsp;
+<b class="nc">&nbsp;        val characterFoodLocation = initCharacterFood()</b>
+<b class="nc">&nbsp;        return GameState(</b>
+<b class="nc">&nbsp;            foodCoord = characterFoodLocation,</b>
+<b class="nc">&nbsp;            characterList = characterList,</b>
+<b class="nc">&nbsp;            currentCharacterTurn = rand(numCharacters),</b>
+<b class="nc">&nbsp;            stuckCharacters = 0,</b>
+<b class="nc">&nbsp;            stalemateRounds = 0</b>
+&nbsp;        )
+&nbsp;    }
+&nbsp;
+<b class="nc">&nbsp;    private fun initCharacterFood(): Pair&lt;Int, Int&gt; = randomCoord()</b>
+&nbsp;
+<b class="nc">&nbsp;    private fun randomCoord(exclude: List&lt;Pair&lt;Int, Int&gt;&gt;? = null): Pair&lt;Int, Int&gt; {</b>
+<b class="nc">&nbsp;        val coord = Pair(</b>
+<b class="nc">&nbsp;            rand(boardSize),</b>
+<b class="nc">&nbsp;            rand(boardSize)</b>
+&nbsp;        )
+<b class="nc">&nbsp;        return if (exclude != null &amp;&amp; exclude.contains(coord) &amp;&amp; exclude.size != (boardSize * boardSize)) {</b>
+<b class="nc">&nbsp;            randomCoord(exclude)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            coord</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun updateCharacterTurn(currentTurn: Int): Int {
+<b class="nc">&nbsp;        return if (currentTurn + 1 &gt; numCharacters - 1) 0</b>
+<b class="nc">&nbsp;        else currentTurn + 1</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun nextCharacterCoord(head: Pair&lt;Int, Int&gt;, direction: CharacterDirection): Pair&lt;Int, Int&gt; =
+<b class="nc">&nbsp;        when (direction) {</b>
+<b class="nc">&nbsp;            CharacterDirection.UP -&gt; Pair(head.first, head.second - 1)</b>
+<b class="nc">&nbsp;            CharacterDirection.DOWN -&gt; Pair(head.first, head.second + 1)</b>
+<b class="nc">&nbsp;            CharacterDirection.RIGHT -&gt; Pair(head.first + 1, head.second)</b>
+<b class="nc">&nbsp;            CharacterDirection.LEFT -&gt; Pair(head.first - 1, head.second)</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    private fun tryMovingHorizontal(
+&nbsp;        validDirections: List&lt;CharacterDirection&gt;,
+&nbsp;        head: Int,
+&nbsp;        food: Int
+<b class="nc">&nbsp;    ): CharacterDirection? = when {</b>
+<b class="nc">&nbsp;        head &gt; food &amp;&amp; validDirections.contains(CharacterDirection.LEFT) -&gt; CharacterDirection.LEFT</b>
+<b class="nc">&nbsp;        validDirections.contains(CharacterDirection.RIGHT) -&gt; CharacterDirection.RIGHT</b>
+<b class="nc">&nbsp;        else -&gt; null</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun tryMovingVertical(
+&nbsp;        validDirections: List&lt;CharacterDirection&gt;,
+&nbsp;        head: Int,
+&nbsp;        food: Int
+<b class="nc">&nbsp;    ): CharacterDirection? = when {</b>
+<b class="nc">&nbsp;        head &gt; food &amp;&amp; validDirections.contains(CharacterDirection.UP) -&gt; CharacterDirection.UP</b>
+<b class="nc">&nbsp;        validDirections.contains(CharacterDirection.DOWN) -&gt; CharacterDirection.DOWN</b>
+<b class="nc">&nbsp;        else -&gt; null</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun calculateValidDirections(
+&nbsp;        head: Pair&lt;Int, Int&gt;,
+&nbsp;        characterList: List&lt;Character&gt;
+&nbsp;    ): List&lt;CharacterDirection?&gt; {
+<b class="nc">&nbsp;        val validDirections = mutableListOf&lt;CharacterDirection&gt;()</b>
+&nbsp;
+<b class="nc">&nbsp;        if (isValidDirection(nextCharacterCoord(head, CharacterDirection.UP), characterList))</b>
+<b class="nc">&nbsp;            validDirections.add(CharacterDirection.UP)</b>
+&nbsp;
+<b class="nc">&nbsp;        if (isValidDirection(nextCharacterCoord(head, CharacterDirection.DOWN), characterList))</b>
+<b class="nc">&nbsp;            validDirections.add(CharacterDirection.DOWN)</b>
+&nbsp;
+<b class="nc">&nbsp;        if (isValidDirection(nextCharacterCoord(head, CharacterDirection.LEFT), characterList))</b>
+<b class="nc">&nbsp;            validDirections.add(CharacterDirection.LEFT)</b>
+&nbsp;
+<b class="nc">&nbsp;        if (isValidDirection(nextCharacterCoord(head, CharacterDirection.RIGHT), characterList))</b>
+<b class="nc">&nbsp;            validDirections.add(CharacterDirection.RIGHT)</b>
+&nbsp;
+<b class="nc">&nbsp;        return validDirections</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun isValidDirection(coord: Pair&lt;Int, Int&gt;, characterList: List&lt;Character&gt;): Boolean {
+<b class="nc">&nbsp;        return when {</b>
+&nbsp;            // check top &amp; bottom boundaries
+<b class="nc">&nbsp;            coord.first &lt; 0 || coord.first &gt; boardSize - 1 -&gt; false</b>
+&nbsp;            // check left &amp; right boundaries
+<b class="nc">&nbsp;            coord.second &lt; 0 || coord.second &gt; boardSize - 1 -&gt; false</b>
+&nbsp;            // check for body
+<b class="nc">&nbsp;            else -&gt; characterList.none { it.body.contains(coord) }</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun calculateOptimalMovementBasic(
+&nbsp;        head: Pair&lt;Int, Int&gt;,
+&nbsp;        characterList: List&lt;Character&gt;,
+&nbsp;        foodCoord: Pair&lt;Int, Int&gt;
+&nbsp;    ): CharacterDirection? {
+&nbsp;        // check if stuck, early return
+<b class="nc">&nbsp;        var validDirections = calculateValidDirections(head, characterList)</b>
+&nbsp;
+<b class="nc">&nbsp;        if (validDirections.isEmpty()) return null</b>
+<b class="nc">&nbsp;        else if (validDirections.size == 1) return validDirections.first()</b>
+&nbsp;        // Note: we know this cast is OK b/c we early returned the empty list!
+<b class="nc">&nbsp;        else validDirections = validDirections as List&lt;CharacterDirection&gt;</b>
+&nbsp;
+&nbsp;        // you need to move towards the correct x &amp; y
+<b class="nc">&nbsp;        moveTowardsFood(head, foodCoord, validDirections)?.let { return it }</b>
+&nbsp;
+&nbsp;        // try to move optimally
+<b class="nc">&nbsp;        moveCharacterOptimally(head, foodCoord, validDirections)?.let { return it }</b>
+&nbsp;
+&nbsp;        // just try to move!
+<b class="nc">&nbsp;        moveRandomly(head, foodCoord, validDirections)?.let { return it }</b>
+&nbsp;
+&nbsp;        // Worst case, pick one at random lol
+<b class="nc">&nbsp;        return validDirections[rand(validDirections.size)]</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun moveCharacterOptimally(
+&nbsp;        head: Pair&lt;Int, Int&gt;,
+&nbsp;        food: Pair&lt;Int, Int&gt;,
+&nbsp;        validDirections: List&lt;CharacterDirection&gt;
+&nbsp;    ): CharacterDirection? {
+<b class="nc">&nbsp;        val xDistanceToFood = head.first - food.first</b>
+<b class="nc">&nbsp;        val yDistanceToFood = head.second - food.second</b>
+&nbsp;
+<b class="nc">&nbsp;        var directionToMove: CharacterDirection? = null</b>
+&nbsp;
+<b class="nc">&nbsp;        if (kotlin.math.abs(xDistanceToFood) &gt; kotlin.math.abs(yDistanceToFood)) {</b>
+&nbsp;            // try moving left or right first
+<b class="nc">&nbsp;            tryMovingHorizontal(validDirections, head.first, food.first)?.let {</b>
+<b class="nc">&nbsp;                directionToMove = it</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        } else if (kotlin.math.abs(xDistanceToFood) &lt; kotlin.math.abs(yDistanceToFood)) {</b>
+&nbsp;            // try moving up or down
+<b class="nc">&nbsp;            tryMovingVertical(validDirections, head.second, food.second)?.let {</b>
+<b class="nc">&nbsp;                directionToMove = it</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return directionToMove</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun moveRandomly(
+&nbsp;        head: Pair&lt;Int, Int&gt;,
+&nbsp;        food: Pair&lt;Int, Int&gt;,
+&nbsp;        validDirections: List&lt;CharacterDirection&gt;
+&nbsp;    ): CharacterDirection? {
+<b class="nc">&nbsp;        var directionToMove: CharacterDirection? = null</b>
+<b class="nc">&nbsp;        if (rand(2) == 0) {</b>
+&nbsp;            // try horizontal, then vertical
+<b class="nc">&nbsp;            tryMovingHorizontal(validDirections, head.first, food.first)?.let {</b>
+<b class="nc">&nbsp;                directionToMove = it</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            tryMovingVertical(validDirections, head.second, food.second)?.let {</b>
+<b class="nc">&nbsp;                directionToMove = it</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        } else {
+&nbsp;            // try vertical, then horizontal
+<b class="nc">&nbsp;            tryMovingVertical(validDirections, head.second, food.second)?.let {</b>
+<b class="nc">&nbsp;                directionToMove = it</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;            tryMovingHorizontal(validDirections, head.first, food.first)?.let {</b>
+<b class="nc">&nbsp;                directionToMove = it</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return directionToMove</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun moveTowardsFood(
+&nbsp;        head: Pair&lt;Int, Int&gt;,
+&nbsp;        food: Pair&lt;Int, Int&gt;,
+&nbsp;        validDirections: List&lt;CharacterDirection&gt;
+&nbsp;    ): CharacterDirection? {
+<b class="nc">&nbsp;        var directionToMove: CharacterDirection? = null</b>
+&nbsp;        // you&#39;re in the correct x plane! navigate up or down towards food
+<b class="nc">&nbsp;        if (head.first == food.first) {</b>
+<b class="nc">&nbsp;            tryMovingVertical(validDirections, head.second, food.second)?.let {</b>
+<b class="nc">&nbsp;                directionToMove = it</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+&nbsp;        // you&#39;re in the correct y plane! navigate left or right towards food
+<b class="nc">&nbsp;        if (head.second == food.second) {</b>
+<b class="nc">&nbsp;            tryMovingHorizontal(validDirections, head.first, food.first)?.let {</b>
+<b class="nc">&nbsp;                directionToMove = it</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return directionToMove</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun moveCharacter(
+&nbsp;        characterList: List&lt;Character&gt;,
+&nbsp;        currentCharacterTurn: Int,
+&nbsp;        foodCoord: Pair&lt;Int, Int&gt;
+&nbsp;    ): Pair&lt;List&lt;Character&gt;, Pair&lt;Int, Int&gt;?&gt; {
+&nbsp;
+<b class="nc">&nbsp;        var currentCharacter = characterList[currentCharacterTurn]</b>
+<b class="nc">&nbsp;        val moveDirection = calculateOptimalMovementBasic(currentCharacter.body.first(), characterList, foodCoord)</b>
+<b class="nc">&nbsp;        val newCharacterList = characterList.toMutableList()</b>
+&nbsp;
+<b class="nc">&nbsp;        val newCharacter = if (moveDirection != null) {</b>
+<b class="nc">&nbsp;            createNewCharacter(currentCharacter, moveDirection)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            currentCharacter.copy(currentDirection = null)</b>
+&nbsp;        }
+<b class="nc">&nbsp;        newCharacterList[currentCharacterTurn] = newCharacter</b>
+&nbsp;
+<b class="nc">&nbsp;        return if (checkFoodEaten(newCharacterList[currentCharacterTurn], foodCoord)) {</b>
+<b class="nc">&nbsp;            onFoodEaten(newCharacterList, currentCharacterTurn)</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            Pair(newCharacterList, null)</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun createNewCharacter(currentCharacter: Character, moveDirection: CharacterDirection): Character {
+<b class="nc">&nbsp;        val newCharacterBody = currentCharacter.body.toMutableList()</b>
+<b class="nc">&nbsp;        val newHead = nextCharacterCoord(currentCharacter.body.first(), moveDirection)</b>
+<b class="nc">&nbsp;        newCharacterBody.add(0, newHead)</b>
+<b class="nc">&nbsp;        return currentCharacter.copy(</b>
+<b class="nc">&nbsp;            body = newCharacterBody,</b>
+<b class="nc">&nbsp;            currentDirection = moveDirection</b>
+&nbsp;        )
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun checkFoodEaten(currentCharacter: Character, foodCoord: Pair&lt;Int, Int&gt;): Boolean {
+<b class="nc">&nbsp;        return (currentCharacter.body.first() == foodCoord)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun onFoodEaten(
+&nbsp;        characterList: MutableList&lt;Character&gt;,
+&nbsp;        currentCharacterTurn: Int
+&nbsp;    ): Pair&lt;List&lt;Character&gt;, Pair&lt;Int, Int&gt;&gt; {
+<b class="nc">&nbsp;        val newFoodCoord = randomCoord()</b>
+<b class="nc">&nbsp;        for (character in characterList) {</b>
+<b class="nc">&nbsp;            if (character.number == currentCharacterTurn) {</b>
+<b class="nc">&nbsp;                character.score++</b>
+&nbsp;            }
+<b class="nc">&nbsp;            character.body = listOf(randomCoord(listOf(newFoodCoord)))</b>
+<b class="nc">&nbsp;            character.currentDirection = CharacterDirection.RIGHT</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return Pair(characterList, newFoodCoord)</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun updateNotStuckCharacter(
+&nbsp;        gameState: GameState,
+&nbsp;        characterList: List&lt;Character&gt;,
+&nbsp;        currentCharacterTurn: Int,
+&nbsp;        currentFoodCoord: Pair&lt;Int, Int&gt;
+&nbsp;    ): GameState {
+<b class="nc">&nbsp;        val characterList = characterList</b>
+<b class="nc">&nbsp;        val newCharacterList = moveCharacter(characterList, currentCharacterTurn, currentFoodCoord)</b>
+<b class="nc">&nbsp;        val nextTurn =</b>
+<b class="nc">&nbsp;            if (newCharacterList.second != null) rand(numCharacters) else updateCharacterTurn(currentCharacterTurn)</b>
+&nbsp;
+<b class="nc">&nbsp;        val stuckCharacters = if (newCharacterList.second != null) 0 else gameState.stuckCharacters</b>
+&nbsp;
+<b class="nc">&nbsp;        return gameState.copy(</b>
+<b class="nc">&nbsp;            currentCharacterTurn = nextTurn,</b>
+<b class="nc">&nbsp;            characterList = newCharacterList.first,</b>
+<b class="nc">&nbsp;            foodCoord = newCharacterList.second ?: currentFoodCoord,</b>
+<b class="nc">&nbsp;            stuckCharacters = stuckCharacters</b>
+&nbsp;        )
+&nbsp;    }
+&nbsp;
+&nbsp;    private fun updateStuckCharacter(
+&nbsp;        gameState: GameState,
+&nbsp;        characterList: List&lt;Character&gt;,
+&nbsp;        currentCharacterTurn: Int
+&nbsp;    ): GameState {
+&nbsp;        // check if all characters are stuck
+<b class="nc">&nbsp;        if (gameState.stuckCharacters == characterList.size) {</b>
+<b class="nc">&nbsp;            val newCharacterList = onFoodEaten(characterList.toMutableList(), -1)</b>
+<b class="nc">&nbsp;            val stalemateCount = gameState.stalemateRounds + 1</b>
+<b class="nc">&nbsp;            return gameState.copy(</b>
+<b class="nc">&nbsp;                currentCharacterTurn = rand(numCharacters),</b>
+<b class="nc">&nbsp;                characterList = newCharacterList.first,</b>
+<b class="nc">&nbsp;                foodCoord = newCharacterList.second,</b>
+<b class="nc">&nbsp;                stuckCharacters = 0,</b>
+<b class="nc">&nbsp;                stalemateRounds = stalemateCount</b>
+&nbsp;            )
+&nbsp;
+&nbsp;        } else {
+<b class="nc">&nbsp;            val stuckCharacters = gameState.stuckCharacters + 1</b>
+<b class="nc">&nbsp;            return gameState.copy(</b>
+<b class="nc">&nbsp;                currentCharacterTurn = updateCharacterTurn(currentCharacterTurn),</b>
+<b class="nc">&nbsp;                stuckCharacters = stuckCharacters</b>
+&nbsp;            )
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    fun playTurn(state: GameState): GameState {
+<b class="nc">&nbsp;        with(state) {</b>
+<b class="nc">&nbsp;            val currentCharacterTurn = currentCharacterTurn</b>
+<b class="nc">&nbsp;            val currentCharacter = characterList[currentCharacterTurn]</b>
+<b class="nc">&nbsp;            val currentFoodCoord = foodCoord</b>
+&nbsp;
+&nbsp;            // Check if the character is stuck
+<b class="nc">&nbsp;            if (currentCharacter.currentDirection != null) {</b>
+<b class="nc">&nbsp;                return updateNotStuckCharacter(state, characterList, currentCharacterTurn, currentFoodCoord)</b>
+&nbsp;            } else {
+&nbsp;                // check if all characters are stuck
+<b class="nc">&nbsp;                return updateStuckCharacter(state, characterList, currentCharacterTurn)</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-05 20:14</div>
+</div>
+</body>
+</html>

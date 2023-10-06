@@ -1,0 +1,116 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GameViewModelKt</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.example.robot_game_play.presentation</a>
+</div>
+
+<h1>Coverage Summary for Class: GameViewModelKt (com.example.robot_game_play.presentation)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">GameViewModelKt</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.example.robot_game_play.presentation
+&nbsp;
+&nbsp;import androidx.lifecycle.ViewModel
+&nbsp;import androidx.lifecycle.viewModelScope
+&nbsp;import com.example.robot_game_play.domain.game.GameEngine
+&nbsp;import com.example.robot_game_play.domain.models.GameState
+&nbsp;import com.example.robot_game_play.domain.repository.GameRepository
+&nbsp;import kotlinx.coroutines.Dispatchers
+&nbsp;import kotlinx.coroutines.delay
+&nbsp;import kotlinx.coroutines.flow.MutableStateFlow
+&nbsp;import kotlinx.coroutines.flow.asStateFlow
+&nbsp;import kotlinx.coroutines.flow.update
+&nbsp;import kotlinx.coroutines.launch
+&nbsp;
+&nbsp;private const val TURN_DELAY = 500L
+&nbsp;
+&nbsp;class GameViewModel(
+&nbsp;    private val gameEngine: GameEngine,
+&nbsp;    private val gameRepository: GameRepository
+&nbsp;) : ViewModel() {
+&nbsp;
+&nbsp;    private val _gameState: MutableStateFlow&lt;GameState?&gt; = MutableStateFlow(null)
+&nbsp;    val gameState = _gameState.asStateFlow()
+&nbsp;
+&nbsp;    fun initGame() {
+&nbsp;        val playersQuantity = gameRepository.getPlayersQuantity()
+&nbsp;        val boardSize = getBoardSize()
+&nbsp;        val characters = gameRepository.getCharacters(playersQuantity, boardSize)
+&nbsp;
+&nbsp;        _gameState.value = gameEngine.initGameState(characters, playersQuantity, boardSize)
+&nbsp;
+&nbsp;        playTurn()
+&nbsp;    }
+&nbsp;
+&nbsp;    fun getBoardSize() = gameRepository.getBoardSize()
+&nbsp;
+&nbsp;    private fun playTurn() {
+&nbsp;        viewModelScope.launch(Dispatchers.Default) {
+&nbsp;            while (true) {
+&nbsp;                delay(TURN_DELAY)
+&nbsp;
+&nbsp;                _gameState.update {
+&nbsp;                    it?.let { gameEngine.playTurn(it) }
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-10-05 20:14</div>
+</div>
+</body>
+</html>
