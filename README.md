@@ -31,13 +31,18 @@ The app contains all of the required features as well as some fun bonus features
 - Code written seeking to maintain the best Clean Code practices.
 - Unit test coverage in View Models and Repositories, using `Mockk` and `JUnit`.
 
+![image](https://github.com/ArthurLDS/robot-challenge/assets/18702590/f5f2e59b-6b2d-4719-95b2-61e76540e218)
+
+![image](https://github.com/ArthurLDS/robot-challenge/assets/18702590/506f9526-d233-47f9-884c-e152c774aec6)
 
 ## Architecture and Design Patterns
 - The APP architecture was built based on some **Clean Architecture** concepts, but does not implement all of its details. The innovative architecture consists of 3 layers, data (infrastructure, communication with APIs, etc.), domain (negotiation rules and definition of contacts) and presentation (visualization part of the application).
 
-  <image src="https://user-images.githubusercontent.com/18702590/155230117-69877898-f2e0-4216-a760-c0bafa1f0281.png" width="500"/>
+  <img width="650" alt="image" src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/f36f51c1-cfec-4808-a80e-fa6f5291646c">
 
 - The application uses **MVVM** as a Pattern for the presentation layer, as recommended by Google itself.
+- Engine of the game is stored in the class **GameEngine**. This class abstract all the rules and game logic.
+   - Note: this class can be improved and each rule can be passed to a Use Case class in domain layer.
 
 ## Technologies
 
