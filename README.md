@@ -56,4 +56,13 @@ As seguintes bibliotecas e frameworks foram usadas na construção do projeto:
 
 ## 📱 Preview
 
-https://user-images.githubusercontent.com/18702590/155229538-ac192fcd-e751-49b3-aa2a-3fc5b10ee817.mp4
+| 7x7 Board | 10x10 Board | 4 Players |
+| :---:   | :---: | :---: |
+| <video src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/ff00aab3-1eae-476f-bfce-7584a0add503"/> | <video src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/df4d5cd0-c216-44c3-b2a1-aa6a6d5b60ab"/> | <video src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/de248333-f80f-4363-bc0c-908ab8f60d11"/>
+
+
+
+
+
+
+
