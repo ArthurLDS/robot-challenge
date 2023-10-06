@@ -1,50 +1,50 @@
 package com.example.robot_game_play.data
 
-import com.example.robot_game_play.domain.models.Character
-import com.example.robot_game_play.domain.models.CharacterDirection
+import com.example.robot_game_play.domain.models.Player
+import com.example.robot_game_play.domain.models.MoveDirection
 import com.example.robot_game_play.domain.repository.GameRepository
-import com.example.robot_game_play.presentation.theme.SnekBlue
-import com.example.robot_game_play.presentation.theme.SnekBlueHead
-import com.example.robot_game_play.presentation.theme.SnekGreen
-import com.example.robot_game_play.presentation.theme.SnekGreenHead
-import com.example.robot_game_play.presentation.theme.SnekOrange
-import com.example.robot_game_play.presentation.theme.SnekOrangeHead
-import com.example.robot_game_play.presentation.theme.SnekPink
-import com.example.robot_game_play.presentation.theme.SnekPinkHead
+import com.example.robot_game_play.presentation.theme.PlayerBlue
+import com.example.robot_game_play.presentation.theme.PlayerBlueHead
+import com.example.robot_game_play.presentation.theme.PlayerGreen
+import com.example.robot_game_play.presentation.theme.PlayerGreenHead
+import com.example.robot_game_play.presentation.theme.PlayerOrange
+import com.example.robot_game_play.presentation.theme.PlayerOrangeHead
+import com.example.robot_game_play.presentation.theme.PlayerPink
+import com.example.robot_game_play.presentation.theme.PlayerPinkHead
 
 class GameRepositoryImpl : GameRepository {
 
-    override fun getCharacters(quantity: Int, boardSize: Int): List<Character> = listOf(
-        Character(
+    override fun getPlayers(quantity: Int, boardSize: Int): List<Player> = listOf(
+        Player(
             body = listOf(Pair(0, boardSize - 1)),
             number = 0,
-            currentDirection = CharacterDirection.RIGHT,
-            bodyColor = SnekPink,
-            headColor = SnekPinkHead,
+            currentDirection = MoveDirection.RIGHT,
+            bodyColor = PlayerPink,
+            headColor = PlayerPinkHead,
             score = 0
         ),
-        Character(
+        Player(
             body = listOf(Pair(boardSize - 1, 0)),
             number = 1,
-            currentDirection = CharacterDirection.RIGHT,
-            bodyColor = SnekGreen,
-            headColor = SnekGreenHead,
+            currentDirection = MoveDirection.RIGHT,
+            bodyColor = PlayerGreen,
+            headColor = PlayerGreenHead,
             score = 0
         ),
-        Character(
+        Player(
             body = listOf(Pair(0, 0)),
             number = 2,
-            currentDirection = CharacterDirection.RIGHT,
-            bodyColor = SnekBlue,
-            headColor = SnekBlueHead,
+            currentDirection = MoveDirection.RIGHT,
+            bodyColor = PlayerBlue,
+            headColor = PlayerBlueHead,
             score = 0
         ),
-        Character(
-            body = listOf(Pair(boardSize, boardSize)),
+        Player(
+            body = listOf(Pair(boardSize - 1, boardSize - 1)),
             number = 3,
-            currentDirection = CharacterDirection.RIGHT,
-            bodyColor = SnekOrange,
-            headColor = SnekOrangeHead,
+            currentDirection = MoveDirection.RIGHT,
+            bodyColor = PlayerOrange,
+            headColor = PlayerOrangeHead,
             score = 0
         ),
     ).take(quantity)

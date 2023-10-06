@@ -32,7 +32,7 @@ class GameViewModelTest : BaseViewModelTest() {
     fun `Given game when started it then create initial state`() = runBlocking {
         every { repository.getBoardSize() } returns 7
         every { repository.getPlayersQuantity() } returns 2
-        every { repository.getCharacters(2, 7) } returns CHARACTER_LIST_DATA
+        every { repository.getPlayers(2, 7) } returns CHARACTER_LIST_DATA
         every { gameEngine.initGameState(CHARACTER_LIST_DATA, 2, 7) } returns GAME_STATE_DATA
 
         val viewModel = GameViewModel(gameEngine, repository)

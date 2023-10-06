@@ -292,7 +292,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;import androidx.compose.ui.unit.dp
 &nbsp;import androidx.compose.ui.zIndex
 &nbsp;import com.example.robot_game_play.R
-&nbsp;import com.example.robot_game_play.domain.models.Character
+&nbsp;import com.example.robot_game_play.domain.models.Player
 &nbsp;import com.example.robot_game_play.domain.models.GameState
 &nbsp;import com.example.robot_game_play.presentation.theme.SnekFoodColor
 &nbsp;import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -327,8 +327,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                Board(gameState, boardSize)</b>
 <b class="nc">&nbsp;                BoxWithConstraints(Modifier.padding(16.dp)) {</b>
 <b class="nc">&nbsp;                    LazyColumn(modifier = Modifier.fillMaxSize()) {</b>
-<b class="nc">&nbsp;                        items(gameState.characterList) {</b>
-&nbsp;                            SnekScores(it, gameState.currentCharacterTurn)
+<b class="nc">&nbsp;                        items(gameState.playerList) {</b>
+&nbsp;                            SnekScores(it, gameState.currentPlayerTurn)
 &nbsp;                        }
 <b class="nc">&nbsp;                    }</b>
 &nbsp;                }
@@ -363,7 +363,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;                    contentScale = ContentScale.Fit,</b>
 <b class="nc">&nbsp;                    modifier = Modifier.padding(4.dp))</b>
 <b class="nc">&nbsp;            }</b>
-<b class="nc">&nbsp;            state.characterList.forEach { snek -&gt;</b>
+<b class="nc">&nbsp;            state.playerList.forEach { snek -&gt;</b>
 <b class="nc">&nbsp;                val snekHead = snek.body.first()</b>
 <b class="nc">&nbsp;                snek.body.forEach {</b>
 <b class="nc">&nbsp;                    Box(</b>
@@ -388,19 +388,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    }
 &nbsp;
 &nbsp;    @Composable
-<b class="nc">&nbsp;    fun SnekScores(character: Character, currentTurn: Int){</b>
+<b class="nc">&nbsp;    fun SnekScores(player: Player, currentTurn: Int){</b>
 <b class="nc">&nbsp;        Row(Modifier.padding(4.dp)) {</b>
 <b class="nc">&nbsp;            Box(</b>
 <b class="nc">&nbsp;                modifier = Modifier</b>
 <b class="nc">&nbsp;                    .size(25.dp)</b>
 <b class="nc">&nbsp;                    .padding(2.dp)</b>
 <b class="nc">&nbsp;                    .background(</b>
-<b class="nc">&nbsp;                        character.headColor, CircleShape</b>
+<b class="nc">&nbsp;                        player.headColor, CircleShape</b>
 &nbsp;                    )
 &nbsp;            )
-<b class="nc">&nbsp;            var text = &quot; Score: ${character.score}&quot;</b>
-<b class="nc">&nbsp;            if (currentTurn == character.number) text += &quot;  &lt;&lt;&quot;</b>
-<b class="nc">&nbsp;            Text(text = text, color = character.headColor, fontWeight = FontWeight.Bold)</b>
+<b class="nc">&nbsp;            var text = &quot; Score: ${player.score}&quot;</b>
+<b class="nc">&nbsp;            if (currentTurn == player.number) text += &quot;  &lt;&lt;&quot;</b>
+<b class="nc">&nbsp;            Text(text = text, color = player.headColor, fontWeight = FontWeight.Bold)</b>
 <b class="nc">&nbsp;        }</b>
 &nbsp;    }
 &nbsp;

@@ -1,9 +1,9 @@
 package com.example.robot_game_play.domain.repository
 
-import com.example.robot_game_play.domain.models.Character
+import com.example.robot_game_play.domain.models.Player
 
 interface GameRepository {
-    fun getCharacters(quantity: Int, boardSize: Int): List<Character>
+    fun getPlayers(quantity: Int, boardSize: Int): List<Player>
     fun getPlayersQuantity(): Int
     fun getBoardSize(): Int
 }

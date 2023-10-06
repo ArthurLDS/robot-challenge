@@ -86,33 +86,33 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.example.robot_game_play.domain.game
 &nbsp;
-&nbsp;import com.example.robot_game_play.domain.models.Character
+&nbsp;import com.example.robot_game_play.domain.models.Player
 &nbsp;import com.example.robot_game_play.domain.models.GameState
-&nbsp;import com.example.robot_game_play.domain.models.CharacterDirection
+&nbsp;import com.example.robot_game_play.domain.models.PlayerDirection
 &nbsp;
 <b class="nc">&nbsp;class GameEngine {</b>
-&nbsp;    private var numCharacters: Int = 0
+&nbsp;    private var numPlayers: Int = 0
 &nbsp;    private var boardSize: Int = 0
 &nbsp;
 &nbsp;    fun initGameState(
-&nbsp;        characterList: List&lt;Character&gt;,
-&nbsp;        numCharacters: Int,
+&nbsp;        playerList: List&lt;Player&gt;,
+&nbsp;        numPlayers: Int,
 &nbsp;        boardSize: Int
 &nbsp;    ): GameState {
-<b class="nc">&nbsp;        this.numCharacters = numCharacters</b>
+<b class="nc">&nbsp;        this.numPlayers = numPlayers</b>
 <b class="nc">&nbsp;        this.boardSize = boardSize</b>
 &nbsp;
-<b class="nc">&nbsp;        val characterFoodLocation = initCharacterFood()</b>
+<b class="nc">&nbsp;        val playerFoodLocation = initPlayerFood()</b>
 <b class="nc">&nbsp;        return GameState(</b>
-<b class="nc">&nbsp;            foodCoord = characterFoodLocation,</b>
-<b class="nc">&nbsp;            characterList = characterList,</b>
-<b class="nc">&nbsp;            currentCharacterTurn = rand(numCharacters),</b>
-<b class="nc">&nbsp;            stuckCharacters = 0,</b>
+<b class="nc">&nbsp;            foodCoord = playerFoodLocation,</b>
+<b class="nc">&nbsp;            playerList = playerList,</b>
+<b class="nc">&nbsp;            currentPlayerTurn = rand(numPlayers),</b>
+<b class="nc">&nbsp;            stuckPlayers = 0,</b>
 <b class="nc">&nbsp;            stalemateRounds = 0</b>
 &nbsp;        )
 &nbsp;    }
 &nbsp;
-<b class="nc">&nbsp;    private fun initCharacterFood(): Pair&lt;Int, Int&gt; = randomCoord()</b>
+<b class="nc">&nbsp;    private fun initPlayerFood(): Pair&lt;Int, Int&gt; = randomCoord()</b>
 &nbsp;
 <b class="nc">&nbsp;    private fun randomCoord(exclude: List&lt;Pair&lt;Int, Int&gt;&gt;? = null): Pair&lt;Int, Int&gt; {</b>
 <b class="nc">&nbsp;        val coord = Pair(</b>
@@ -126,89 +126,89 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun updateCharacterTurn(currentTurn: Int): Int {
-<b class="nc">&nbsp;        return if (currentTurn + 1 &gt; numCharacters - 1) 0</b>
+&nbsp;    private fun updatePlayerTurn(currentTurn: Int): Int {
+<b class="nc">&nbsp;        return if (currentTurn + 1 &gt; numPlayers - 1) 0</b>
 <b class="nc">&nbsp;        else currentTurn + 1</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun nextCharacterCoord(head: Pair&lt;Int, Int&gt;, direction: CharacterDirection): Pair&lt;Int, Int&gt; =
+&nbsp;    private fun nextPlayerCoord(head: Pair&lt;Int, Int&gt;, direction: PlayerDirection): Pair&lt;Int, Int&gt; =
 <b class="nc">&nbsp;        when (direction) {</b>
-<b class="nc">&nbsp;            CharacterDirection.UP -&gt; Pair(head.first, head.second - 1)</b>
-<b class="nc">&nbsp;            CharacterDirection.DOWN -&gt; Pair(head.first, head.second + 1)</b>
-<b class="nc">&nbsp;            CharacterDirection.RIGHT -&gt; Pair(head.first + 1, head.second)</b>
-<b class="nc">&nbsp;            CharacterDirection.LEFT -&gt; Pair(head.first - 1, head.second)</b>
+<b class="nc">&nbsp;            PlayerDirection.UP -&gt; Pair(head.first, head.second - 1)</b>
+<b class="nc">&nbsp;            PlayerDirection.DOWN -&gt; Pair(head.first, head.second + 1)</b>
+<b class="nc">&nbsp;            PlayerDirection.RIGHT -&gt; Pair(head.first + 1, head.second)</b>
+<b class="nc">&nbsp;            PlayerDirection.LEFT -&gt; Pair(head.first - 1, head.second)</b>
 &nbsp;        }
 &nbsp;
 &nbsp;    private fun tryMovingHorizontal(
-&nbsp;        validDirections: List&lt;CharacterDirection&gt;,
+&nbsp;        validDirections: List&lt;PlayerDirection&gt;,
 &nbsp;        head: Int,
 &nbsp;        food: Int
-<b class="nc">&nbsp;    ): CharacterDirection? = when {</b>
-<b class="nc">&nbsp;        head &gt; food &amp;&amp; validDirections.contains(CharacterDirection.LEFT) -&gt; CharacterDirection.LEFT</b>
-<b class="nc">&nbsp;        validDirections.contains(CharacterDirection.RIGHT) -&gt; CharacterDirection.RIGHT</b>
+<b class="nc">&nbsp;    ): PlayerDirection? = when {</b>
+<b class="nc">&nbsp;        head &gt; food &amp;&amp; validDirections.contains(PlayerDirection.LEFT) -&gt; PlayerDirection.LEFT</b>
+<b class="nc">&nbsp;        validDirections.contains(PlayerDirection.RIGHT) -&gt; PlayerDirection.RIGHT</b>
 <b class="nc">&nbsp;        else -&gt; null</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    private fun tryMovingVertical(
-&nbsp;        validDirections: List&lt;CharacterDirection&gt;,
+&nbsp;        validDirections: List&lt;PlayerDirection&gt;,
 &nbsp;        head: Int,
 &nbsp;        food: Int
-<b class="nc">&nbsp;    ): CharacterDirection? = when {</b>
-<b class="nc">&nbsp;        head &gt; food &amp;&amp; validDirections.contains(CharacterDirection.UP) -&gt; CharacterDirection.UP</b>
-<b class="nc">&nbsp;        validDirections.contains(CharacterDirection.DOWN) -&gt; CharacterDirection.DOWN</b>
+<b class="nc">&nbsp;    ): PlayerDirection? = when {</b>
+<b class="nc">&nbsp;        head &gt; food &amp;&amp; validDirections.contains(PlayerDirection.UP) -&gt; PlayerDirection.UP</b>
+<b class="nc">&nbsp;        validDirections.contains(PlayerDirection.DOWN) -&gt; PlayerDirection.DOWN</b>
 <b class="nc">&nbsp;        else -&gt; null</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    private fun calculateValidDirections(
 &nbsp;        head: Pair&lt;Int, Int&gt;,
-&nbsp;        characterList: List&lt;Character&gt;
-&nbsp;    ): List&lt;CharacterDirection?&gt; {
-<b class="nc">&nbsp;        val validDirections = mutableListOf&lt;CharacterDirection&gt;()</b>
+&nbsp;        playerList: List&lt;Player&gt;
+&nbsp;    ): List&lt;PlayerDirection?&gt; {
+<b class="nc">&nbsp;        val validDirections = mutableListOf&lt;PlayerDirection&gt;()</b>
 &nbsp;
-<b class="nc">&nbsp;        if (isValidDirection(nextCharacterCoord(head, CharacterDirection.UP), characterList))</b>
-<b class="nc">&nbsp;            validDirections.add(CharacterDirection.UP)</b>
+<b class="nc">&nbsp;        if (isValidDirection(nextPlayerCoord(head, PlayerDirection.UP), playerList))</b>
+<b class="nc">&nbsp;            validDirections.add(PlayerDirection.UP)</b>
 &nbsp;
-<b class="nc">&nbsp;        if (isValidDirection(nextCharacterCoord(head, CharacterDirection.DOWN), characterList))</b>
-<b class="nc">&nbsp;            validDirections.add(CharacterDirection.DOWN)</b>
+<b class="nc">&nbsp;        if (isValidDirection(nextPlayerCoord(head, PlayerDirection.DOWN), playerList))</b>
+<b class="nc">&nbsp;            validDirections.add(PlayerDirection.DOWN)</b>
 &nbsp;
-<b class="nc">&nbsp;        if (isValidDirection(nextCharacterCoord(head, CharacterDirection.LEFT), characterList))</b>
-<b class="nc">&nbsp;            validDirections.add(CharacterDirection.LEFT)</b>
+<b class="nc">&nbsp;        if (isValidDirection(nextPlayerCoord(head, PlayerDirection.LEFT), playerList))</b>
+<b class="nc">&nbsp;            validDirections.add(PlayerDirection.LEFT)</b>
 &nbsp;
-<b class="nc">&nbsp;        if (isValidDirection(nextCharacterCoord(head, CharacterDirection.RIGHT), characterList))</b>
-<b class="nc">&nbsp;            validDirections.add(CharacterDirection.RIGHT)</b>
+<b class="nc">&nbsp;        if (isValidDirection(nextPlayerCoord(head, PlayerDirection.RIGHT), playerList))</b>
+<b class="nc">&nbsp;            validDirections.add(PlayerDirection.RIGHT)</b>
 &nbsp;
 <b class="nc">&nbsp;        return validDirections</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun isValidDirection(coord: Pair&lt;Int, Int&gt;, characterList: List&lt;Character&gt;): Boolean {
+&nbsp;    private fun isValidDirection(coord: Pair&lt;Int, Int&gt;, playerList: List&lt;Player&gt;): Boolean {
 <b class="nc">&nbsp;        return when {</b>
 &nbsp;            // check top &amp; bottom boundaries
 <b class="nc">&nbsp;            coord.first &lt; 0 || coord.first &gt; boardSize - 1 -&gt; false</b>
 &nbsp;            // check left &amp; right boundaries
 <b class="nc">&nbsp;            coord.second &lt; 0 || coord.second &gt; boardSize - 1 -&gt; false</b>
 &nbsp;            // check for body
-<b class="nc">&nbsp;            else -&gt; characterList.none { it.body.contains(coord) }</b>
+<b class="nc">&nbsp;            else -&gt; playerList.none { it.body.contains(coord) }</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
 &nbsp;    private fun calculateOptimalMovementBasic(
 &nbsp;        head: Pair&lt;Int, Int&gt;,
-&nbsp;        characterList: List&lt;Character&gt;,
+&nbsp;        playerList: List&lt;Player&gt;,
 &nbsp;        foodCoord: Pair&lt;Int, Int&gt;
-&nbsp;    ): CharacterDirection? {
+&nbsp;    ): PlayerDirection? {
 &nbsp;        // check if stuck, early return
-<b class="nc">&nbsp;        var validDirections = calculateValidDirections(head, characterList)</b>
+<b class="nc">&nbsp;        var validDirections = calculateValidDirections(head, playerList)</b>
 &nbsp;
 <b class="nc">&nbsp;        if (validDirections.isEmpty()) return null</b>
 <b class="nc">&nbsp;        else if (validDirections.size == 1) return validDirections.first()</b>
 &nbsp;        // Note: we know this cast is OK b/c we early returned the empty list!
-<b class="nc">&nbsp;        else validDirections = validDirections as List&lt;CharacterDirection&gt;</b>
+<b class="nc">&nbsp;        else validDirections = validDirections as List&lt;PlayerDirection&gt;</b>
 &nbsp;
 &nbsp;        // you need to move towards the correct x &amp; y
 <b class="nc">&nbsp;        moveTowardsFood(head, foodCoord, validDirections)?.let { return it }</b>
 &nbsp;
 &nbsp;        // try to move optimally
-<b class="nc">&nbsp;        moveCharacterOptimally(head, foodCoord, validDirections)?.let { return it }</b>
+<b class="nc">&nbsp;        movePlayerOptimally(head, foodCoord, validDirections)?.let { return it }</b>
 &nbsp;
 &nbsp;        // just try to move!
 <b class="nc">&nbsp;        moveRandomly(head, foodCoord, validDirections)?.let { return it }</b>
@@ -217,15 +217,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        return validDirections[rand(validDirections.size)]</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun moveCharacterOptimally(
+&nbsp;    private fun movePlayerOptimally(
 &nbsp;        head: Pair&lt;Int, Int&gt;,
 &nbsp;        food: Pair&lt;Int, Int&gt;,
-&nbsp;        validDirections: List&lt;CharacterDirection&gt;
-&nbsp;    ): CharacterDirection? {
+&nbsp;        validDirections: List&lt;PlayerDirection&gt;
+&nbsp;    ): PlayerDirection? {
 <b class="nc">&nbsp;        val xDistanceToFood = head.first - food.first</b>
 <b class="nc">&nbsp;        val yDistanceToFood = head.second - food.second</b>
 &nbsp;
-<b class="nc">&nbsp;        var directionToMove: CharacterDirection? = null</b>
+<b class="nc">&nbsp;        var directionToMove: PlayerDirection? = null</b>
 &nbsp;
 <b class="nc">&nbsp;        if (kotlin.math.abs(xDistanceToFood) &gt; kotlin.math.abs(yDistanceToFood)) {</b>
 &nbsp;            // try moving left or right first
@@ -244,9 +244,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private fun moveRandomly(
 &nbsp;        head: Pair&lt;Int, Int&gt;,
 &nbsp;        food: Pair&lt;Int, Int&gt;,
-&nbsp;        validDirections: List&lt;CharacterDirection&gt;
-&nbsp;    ): CharacterDirection? {
-<b class="nc">&nbsp;        var directionToMove: CharacterDirection? = null</b>
+&nbsp;        validDirections: List&lt;PlayerDirection&gt;
+&nbsp;    ): PlayerDirection? {
+<b class="nc">&nbsp;        var directionToMove: PlayerDirection? = null</b>
 <b class="nc">&nbsp;        if (rand(2) == 0) {</b>
 &nbsp;            // try horizontal, then vertical
 <b class="nc">&nbsp;            tryMovingHorizontal(validDirections, head.first, food.first)?.let {</b>
@@ -270,9 +270,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    private fun moveTowardsFood(
 &nbsp;        head: Pair&lt;Int, Int&gt;,
 &nbsp;        food: Pair&lt;Int, Int&gt;,
-&nbsp;        validDirections: List&lt;CharacterDirection&gt;
-&nbsp;    ): CharacterDirection? {
-<b class="nc">&nbsp;        var directionToMove: CharacterDirection? = null</b>
+&nbsp;        validDirections: List&lt;PlayerDirection&gt;
+&nbsp;    ): PlayerDirection? {
+<b class="nc">&nbsp;        var directionToMove: PlayerDirection? = null</b>
 &nbsp;        // you&#39;re in the correct x plane! navigate up or down towards food
 <b class="nc">&nbsp;        if (head.first == food.first) {</b>
 <b class="nc">&nbsp;            tryMovingVertical(validDirections, head.second, food.second)?.let {</b>
@@ -288,119 +288,119 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc">&nbsp;        return directionToMove</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun moveCharacter(
-&nbsp;        characterList: List&lt;Character&gt;,
-&nbsp;        currentCharacterTurn: Int,
+&nbsp;    private fun movePlayer(
+&nbsp;        playerList: List&lt;Player&gt;,
+&nbsp;        currentPlayerTurn: Int,
 &nbsp;        foodCoord: Pair&lt;Int, Int&gt;
-&nbsp;    ): Pair&lt;List&lt;Character&gt;, Pair&lt;Int, Int&gt;?&gt; {
+&nbsp;    ): Pair&lt;List&lt;Player&gt;, Pair&lt;Int, Int&gt;?&gt; {
 &nbsp;
-<b class="nc">&nbsp;        var currentCharacter = characterList[currentCharacterTurn]</b>
-<b class="nc">&nbsp;        val moveDirection = calculateOptimalMovementBasic(currentCharacter.body.first(), characterList, foodCoord)</b>
-<b class="nc">&nbsp;        val newCharacterList = characterList.toMutableList()</b>
+<b class="nc">&nbsp;        var currentPlayer = playerList[currentPlayerTurn]</b>
+<b class="nc">&nbsp;        val moveDirection = calculateOptimalMovementBasic(currentPlayer.body.first(), playerList, foodCoord)</b>
+<b class="nc">&nbsp;        val newPlayerList = playerList.toMutableList()</b>
 &nbsp;
-<b class="nc">&nbsp;        val newCharacter = if (moveDirection != null) {</b>
-<b class="nc">&nbsp;            createNewCharacter(currentCharacter, moveDirection)</b>
+<b class="nc">&nbsp;        val newPlayer = if (moveDirection != null) {</b>
+<b class="nc">&nbsp;            createNewPlayer(currentPlayer, moveDirection)</b>
 &nbsp;        } else {
-<b class="nc">&nbsp;            currentCharacter.copy(currentDirection = null)</b>
+<b class="nc">&nbsp;            currentPlayer.copy(currentDirection = null)</b>
 &nbsp;        }
-<b class="nc">&nbsp;        newCharacterList[currentCharacterTurn] = newCharacter</b>
+<b class="nc">&nbsp;        newPlayerList[currentPlayerTurn] = newPlayer</b>
 &nbsp;
-<b class="nc">&nbsp;        return if (checkFoodEaten(newCharacterList[currentCharacterTurn], foodCoord)) {</b>
-<b class="nc">&nbsp;            onFoodEaten(newCharacterList, currentCharacterTurn)</b>
+<b class="nc">&nbsp;        return if (checkFoodEaten(newPlayerList[currentPlayerTurn], foodCoord)) {</b>
+<b class="nc">&nbsp;            onFoodEaten(newPlayerList, currentPlayerTurn)</b>
 &nbsp;        } else {
-<b class="nc">&nbsp;            Pair(newCharacterList, null)</b>
+<b class="nc">&nbsp;            Pair(newPlayerList, null)</b>
 &nbsp;        }
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun createNewCharacter(currentCharacter: Character, moveDirection: CharacterDirection): Character {
-<b class="nc">&nbsp;        val newCharacterBody = currentCharacter.body.toMutableList()</b>
-<b class="nc">&nbsp;        val newHead = nextCharacterCoord(currentCharacter.body.first(), moveDirection)</b>
-<b class="nc">&nbsp;        newCharacterBody.add(0, newHead)</b>
-<b class="nc">&nbsp;        return currentCharacter.copy(</b>
-<b class="nc">&nbsp;            body = newCharacterBody,</b>
+&nbsp;    private fun createNewPlayer(currentPlayer: Player, moveDirection: PlayerDirection): Player {
+<b class="nc">&nbsp;        val newPlayerBody = currentPlayer.body.toMutableList()</b>
+<b class="nc">&nbsp;        val newHead = nextPlayerCoord(currentPlayer.body.first(), moveDirection)</b>
+<b class="nc">&nbsp;        newPlayerBody.add(0, newHead)</b>
+<b class="nc">&nbsp;        return currentPlayer.copy(</b>
+<b class="nc">&nbsp;            body = newPlayerBody,</b>
 <b class="nc">&nbsp;            currentDirection = moveDirection</b>
 &nbsp;        )
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun checkFoodEaten(currentCharacter: Character, foodCoord: Pair&lt;Int, Int&gt;): Boolean {
-<b class="nc">&nbsp;        return (currentCharacter.body.first() == foodCoord)</b>
+&nbsp;    private fun checkFoodEaten(currentPlayer: Player, foodCoord: Pair&lt;Int, Int&gt;): Boolean {
+<b class="nc">&nbsp;        return (currentPlayer.body.first() == foodCoord)</b>
 &nbsp;    }
 &nbsp;
 &nbsp;    private fun onFoodEaten(
-&nbsp;        characterList: MutableList&lt;Character&gt;,
-&nbsp;        currentCharacterTurn: Int
-&nbsp;    ): Pair&lt;List&lt;Character&gt;, Pair&lt;Int, Int&gt;&gt; {
+&nbsp;        playerList: MutableList&lt;Player&gt;,
+&nbsp;        currentPlayerTurn: Int
+&nbsp;    ): Pair&lt;List&lt;Player&gt;, Pair&lt;Int, Int&gt;&gt; {
 <b class="nc">&nbsp;        val newFoodCoord = randomCoord()</b>
-<b class="nc">&nbsp;        for (character in characterList) {</b>
-<b class="nc">&nbsp;            if (character.number == currentCharacterTurn) {</b>
-<b class="nc">&nbsp;                character.score++</b>
+<b class="nc">&nbsp;        for (player in playerList) {</b>
+<b class="nc">&nbsp;            if (player.number == currentPlayerTurn) {</b>
+<b class="nc">&nbsp;                player.score++</b>
 &nbsp;            }
-<b class="nc">&nbsp;            character.body = listOf(randomCoord(listOf(newFoodCoord)))</b>
-<b class="nc">&nbsp;            character.currentDirection = CharacterDirection.RIGHT</b>
+<b class="nc">&nbsp;            player.body = listOf(randomCoord(listOf(newFoodCoord)))</b>
+<b class="nc">&nbsp;            player.currentDirection = PlayerDirection.RIGHT</b>
 &nbsp;        }
 &nbsp;
-<b class="nc">&nbsp;        return Pair(characterList, newFoodCoord)</b>
+<b class="nc">&nbsp;        return Pair(playerList, newFoodCoord)</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun updateNotStuckCharacter(
+&nbsp;    private fun updateNotStuckPlayer(
 &nbsp;        gameState: GameState,
-&nbsp;        characterList: List&lt;Character&gt;,
-&nbsp;        currentCharacterTurn: Int,
+&nbsp;        playerList: List&lt;Player&gt;,
+&nbsp;        currentPlayerTurn: Int,
 &nbsp;        currentFoodCoord: Pair&lt;Int, Int&gt;
 &nbsp;    ): GameState {
-<b class="nc">&nbsp;        val characterList = characterList</b>
-<b class="nc">&nbsp;        val newCharacterList = moveCharacter(characterList, currentCharacterTurn, currentFoodCoord)</b>
+<b class="nc">&nbsp;        val playerList = playerList</b>
+<b class="nc">&nbsp;        val newPlayerList = movePlayer(playerList, currentPlayerTurn, currentFoodCoord)</b>
 <b class="nc">&nbsp;        val nextTurn =</b>
-<b class="nc">&nbsp;            if (newCharacterList.second != null) rand(numCharacters) else updateCharacterTurn(currentCharacterTurn)</b>
+<b class="nc">&nbsp;            if (newPlayerList.second != null) rand(numPlayers) else updatePlayerTurn(currentPlayerTurn)</b>
 &nbsp;
-<b class="nc">&nbsp;        val stuckCharacters = if (newCharacterList.second != null) 0 else gameState.stuckCharacters</b>
+<b class="nc">&nbsp;        val stuckPlayers = if (newPlayerList.second != null) 0 else gameState.stuckPlayers</b>
 &nbsp;
 <b class="nc">&nbsp;        return gameState.copy(</b>
-<b class="nc">&nbsp;            currentCharacterTurn = nextTurn,</b>
-<b class="nc">&nbsp;            characterList = newCharacterList.first,</b>
-<b class="nc">&nbsp;            foodCoord = newCharacterList.second ?: currentFoodCoord,</b>
-<b class="nc">&nbsp;            stuckCharacters = stuckCharacters</b>
+<b class="nc">&nbsp;            currentPlayerTurn = nextTurn,</b>
+<b class="nc">&nbsp;            playerList = newPlayerList.first,</b>
+<b class="nc">&nbsp;            foodCoord = newPlayerList.second ?: currentFoodCoord,</b>
+<b class="nc">&nbsp;            stuckPlayers = stuckPlayers</b>
 &nbsp;        )
 &nbsp;    }
 &nbsp;
-&nbsp;    private fun updateStuckCharacter(
+&nbsp;    private fun updateStuckPlayer(
 &nbsp;        gameState: GameState,
-&nbsp;        characterList: List&lt;Character&gt;,
-&nbsp;        currentCharacterTurn: Int
+&nbsp;        playerList: List&lt;Player&gt;,
+&nbsp;        currentPlayerTurn: Int
 &nbsp;    ): GameState {
-&nbsp;        // check if all characters are stuck
-<b class="nc">&nbsp;        if (gameState.stuckCharacters == characterList.size) {</b>
-<b class="nc">&nbsp;            val newCharacterList = onFoodEaten(characterList.toMutableList(), -1)</b>
+&nbsp;        // check if all players are stuck
+<b class="nc">&nbsp;        if (gameState.stuckPlayers == playerList.size) {</b>
+<b class="nc">&nbsp;            val newPlayerList = onFoodEaten(playerList.toMutableList(), -1)</b>
 <b class="nc">&nbsp;            val stalemateCount = gameState.stalemateRounds + 1</b>
 <b class="nc">&nbsp;            return gameState.copy(</b>
-<b class="nc">&nbsp;                currentCharacterTurn = rand(numCharacters),</b>
-<b class="nc">&nbsp;                characterList = newCharacterList.first,</b>
-<b class="nc">&nbsp;                foodCoord = newCharacterList.second,</b>
-<b class="nc">&nbsp;                stuckCharacters = 0,</b>
+<b class="nc">&nbsp;                currentPlayerTurn = rand(numPlayers),</b>
+<b class="nc">&nbsp;                playerList = newPlayerList.first,</b>
+<b class="nc">&nbsp;                foodCoord = newPlayerList.second,</b>
+<b class="nc">&nbsp;                stuckPlayers = 0,</b>
 <b class="nc">&nbsp;                stalemateRounds = stalemateCount</b>
 &nbsp;            )
 &nbsp;
 &nbsp;        } else {
-<b class="nc">&nbsp;            val stuckCharacters = gameState.stuckCharacters + 1</b>
+<b class="nc">&nbsp;            val stuckPlayers = gameState.stuckPlayers + 1</b>
 <b class="nc">&nbsp;            return gameState.copy(</b>
-<b class="nc">&nbsp;                currentCharacterTurn = updateCharacterTurn(currentCharacterTurn),</b>
-<b class="nc">&nbsp;                stuckCharacters = stuckCharacters</b>
+<b class="nc">&nbsp;                currentPlayerTurn = updatePlayerTurn(currentPlayerTurn),</b>
+<b class="nc">&nbsp;                stuckPlayers = stuckPlayers</b>
 &nbsp;            )
 &nbsp;        }
 &nbsp;    }
 &nbsp;
 &nbsp;    fun playTurn(state: GameState): GameState {
 <b class="nc">&nbsp;        with(state) {</b>
-<b class="nc">&nbsp;            val currentCharacterTurn = currentCharacterTurn</b>
-<b class="nc">&nbsp;            val currentCharacter = characterList[currentCharacterTurn]</b>
+<b class="nc">&nbsp;            val currentPlayerTurn = currentPlayerTurn</b>
+<b class="nc">&nbsp;            val currentPlayer = playerList[currentPlayerTurn]</b>
 <b class="nc">&nbsp;            val currentFoodCoord = foodCoord</b>
 &nbsp;
-&nbsp;            // Check if the character is stuck
-<b class="nc">&nbsp;            if (currentCharacter.currentDirection != null) {</b>
-<b class="nc">&nbsp;                return updateNotStuckCharacter(state, characterList, currentCharacterTurn, currentFoodCoord)</b>
+&nbsp;            // Check if the player is stuck
+<b class="nc">&nbsp;            if (currentPlayer.currentDirection != null) {</b>
+<b class="nc">&nbsp;                return updateNotStuckPlayer(state, playerList, currentPlayerTurn, currentFoodCoord)</b>
 &nbsp;            } else {
-&nbsp;                // check if all characters are stuck
-<b class="nc">&nbsp;                return updateStuckCharacter(state, characterList, currentCharacterTurn)</b>
+&nbsp;                // check if all players are stuck
+<b class="nc">&nbsp;                return updateStuckPlayer(state, playerList, currentPlayerTurn)</b>
 &nbsp;            }
 &nbsp;        }
 &nbsp;    }

@@ -25,9 +25,9 @@ class GameViewModel(
     fun initGame() {
         val playersQuantity = gameRepository.getPlayersQuantity()
         val boardSize = getBoardSize()
-        val characters = gameRepository.getCharacters(playersQuantity, boardSize)
+        val players = gameRepository.getPlayers(playersQuantity, boardSize)
 
-        _gameState.update { gameEngine.initGameState(characters, playersQuantity, boardSize) }
+        _gameState.update { gameEngine.initGameState(players, playersQuantity, boardSize) }
 
         playTurn()
     }

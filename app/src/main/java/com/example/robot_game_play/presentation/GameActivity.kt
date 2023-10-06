@@ -30,9 +30,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.robot_game_play.R
-import com.example.robot_game_play.domain.models.Character
+import com.example.robot_game_play.domain.models.Player
 import com.example.robot_game_play.domain.models.GameState
-import com.example.robot_game_play.presentation.theme.SnekFoodColor
+import com.example.robot_game_play.presentation.theme.FoodColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class GameActivity : BaseActivity() {
@@ -65,8 +65,8 @@ class GameActivity : BaseActivity() {
                 Board(gameState, boardSize)
                 BoxWithConstraints(Modifier.padding(16.dp)) {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(gameState.characterList) {
-                            SnekScores(it, gameState.currentCharacterTurn)
+                        items(gameState.playerList) {
+                            Scores(it, gameState.currentPlayerTurn)
                         }
                     }
                 }
@@ -92,7 +92,7 @@ class GameActivity : BaseActivity() {
                     )
                     .size(tileSize)
                     .background(
-                        SnekFoodColor, RoundedCornerShape(8.dp)
+                        FoodColor, RoundedCornerShape(8.dp)
                     )
             ) {
                 Image(
@@ -101,24 +101,24 @@ class GameActivity : BaseActivity() {
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.padding(4.dp))
             }
-            state.characterList.forEach { snek ->
-                val snekHead = snek.body.first()
-                snek.body.forEach {
+            state.playerList.forEach { player ->
+                val playerHead = player.body.first()
+                player.body.forEach {
                     Box(
                         modifier = Modifier
                             .offset(x = tileSize * it.first, y = tileSize * it.second)
                             .size(tileSize - 3.dp)
                             .background(
-                                snek.bodyColor, CircleShape
+                                player.bodyColor, CircleShape
                             )
                     )
                 }
                 Box(
                     modifier = Modifier
-                        .offset(x = tileSize * snekHead.first, y = tileSize * snekHead.second)
+                        .offset(x = tileSize * playerHead.first, y = tileSize * playerHead.second)
                         .size(tileSize - 2.dp)
                         .background(
-                            snek.headColor, CircleShape
+                            player.headColor, CircleShape
                         )
                 )
             }
@@ -126,19 +126,19 @@ class GameActivity : BaseActivity() {
     }
 
     @Composable
-    fun SnekScores(character: Character, currentTurn: Int){
+    fun Scores(player: Player, currentTurn: Int){
         Row(Modifier.padding(4.dp)) {
             Box(
                 modifier = Modifier
                     .size(25.dp)
                     .padding(2.dp)
                     .background(
-                        character.headColor, CircleShape
+                        player.headColor, CircleShape
                     )
             )
-            var text = " Score: ${character.score}"
-            if (currentTurn == character.number) text += "  <<"
-            Text(text = text, color = character.headColor, fontWeight = FontWeight.Bold)
+            var text = " Score: ${player.score}"
+            if (currentTurn == player.number) text += "  <<"
+            Text(text = text, color = player.headColor, fontWeight = FontWeight.Bold)
         }
     }
 
@@ -146,7 +146,7 @@ class GameActivity : BaseActivity() {
     fun GameStats() {
         Column {
             Row {
-                TitleLarge(text = "\uD83E\uDD16 Robot Challange")
+                TitleLarge(text = "\uD83E\uDD16 Robot Challenge")
             }
         }
     }

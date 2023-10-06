@@ -19,17 +19,17 @@ class GameRepositoryTest {
     }
 
     @Test
-    fun `Given quantity 2 and boardSize 7 when get characters then return list of 2`() {
+    fun `Given quantity 2 and boardSize 7 when get players then return list of 2`() {
         val expected = CHARACTER_LIST_DATA
-        val response = repository.getCharacters(2, 7)
+        val response = repository.getPlayers(2, 7)
 
         assertThat(expected).isEqualTo(response)
     }
 
     @Test
-    fun `Given quantity 3 and boardSize 7 when get characters then return list of 3`() {
+    fun `Given quantity 3 and boardSize 7 when get players then return list of 3`() {
         val expected = CHARACTER_LIST_OF_THREE_DATA
-        val response = repository.getCharacters(3, 7)
+        val response = repository.getPlayers(3, 7)
 
         assertThat(expected).isEqualTo(response)
     }

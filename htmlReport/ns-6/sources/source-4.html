@@ -65,9 +65,9 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;    fun initGame() {
 &nbsp;        val playersQuantity = gameRepository.getPlayersQuantity()
 &nbsp;        val boardSize = getBoardSize()
-&nbsp;        val characters = gameRepository.getCharacters(playersQuantity, boardSize)
+&nbsp;        val players = gameRepository.getPlayers(playersQuantity, boardSize)
 &nbsp;
-&nbsp;        _gameState.value = gameEngine.initGameState(characters, playersQuantity, boardSize)
+&nbsp;        _gameState.value = gameEngine.initGameState(players, playersQuantity, boardSize)
 &nbsp;
 &nbsp;        playTurn()
 &nbsp;    }

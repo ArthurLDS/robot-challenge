@@ -76,8 +76,8 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <code class="sourceCode" id="sourceCode">&nbsp;package com.example.robot_game_play.data
 &nbsp;
-&nbsp;import com.example.robot_game_play.domain.models.Character
-&nbsp;import com.example.robot_game_play.domain.models.CharacterDirection
+&nbsp;import com.example.robot_game_play.domain.models.Player
+&nbsp;import com.example.robot_game_play.domain.models.PlayerDirection
 &nbsp;import com.example.robot_game_play.domain.repository.GameRepository
 &nbsp;import com.example.robot_game_play.presentation.theme.SnekBlue
 &nbsp;import com.example.robot_game_play.presentation.theme.SnekBlueHead
@@ -93,35 +93,35 @@ Current scope:     <a href="../../index.html">all classes</a>
 &nbsp;
 <b class="nc">&nbsp;class GameRepositoryImpl : GameRepository {</b>
 &nbsp;
-<b class="nc">&nbsp;    override fun getCharacters(quantity: Int, boardSize: Int): List&lt;Character&gt; = listOf(</b>
-<b class="nc">&nbsp;        Character(</b>
+<b class="nc">&nbsp;    override fun getPlayers(quantity: Int, boardSize: Int): List&lt;Player&gt; = listOf(</b>
+<b class="nc">&nbsp;        Player(</b>
 <b class="nc">&nbsp;            body = listOf(Pair(0, boardSize - 1)),</b>
 <b class="nc">&nbsp;            number = 0,</b>
-<b class="nc">&nbsp;            currentDirection = CharacterDirection.RIGHT,</b>
+<b class="nc">&nbsp;            currentDirection = PlayerDirection.RIGHT,</b>
 <b class="nc">&nbsp;            bodyColor = SnekPink,</b>
 <b class="nc">&nbsp;            headColor = SnekPinkHead,</b>
 <b class="nc">&nbsp;            score = 0</b>
 &nbsp;        ),
-<b class="nc">&nbsp;        Character(</b>
+<b class="nc">&nbsp;        Player(</b>
 <b class="nc">&nbsp;            body = listOf(Pair(boardSize - 1, 0)),</b>
 <b class="nc">&nbsp;            number = 1,</b>
-<b class="nc">&nbsp;            currentDirection = CharacterDirection.RIGHT,</b>
+<b class="nc">&nbsp;            currentDirection = PlayerDirection.RIGHT,</b>
 <b class="nc">&nbsp;            bodyColor = SnekGreen,</b>
 <b class="nc">&nbsp;            headColor = SnekGreenHead,</b>
 <b class="nc">&nbsp;            score = 0</b>
 &nbsp;        ),
-<b class="nc">&nbsp;        Character(</b>
+<b class="nc">&nbsp;        Player(</b>
 <b class="nc">&nbsp;            body = listOf(Pair(0, 0)),</b>
 <b class="nc">&nbsp;            number = 2,</b>
-<b class="nc">&nbsp;            currentDirection = CharacterDirection.RIGHT,</b>
+<b class="nc">&nbsp;            currentDirection = PlayerDirection.RIGHT,</b>
 <b class="nc">&nbsp;            bodyColor = SnekBlue,</b>
 <b class="nc">&nbsp;            headColor = SnekBlueHead,</b>
 <b class="nc">&nbsp;            score = 0</b>
 &nbsp;        ),
-<b class="nc">&nbsp;        Character(</b>
+<b class="nc">&nbsp;        Player(</b>
 <b class="nc">&nbsp;            body = listOf(Pair(boardSize, boardSize)),</b>
 <b class="nc">&nbsp;            number = 3,</b>
-<b class="nc">&nbsp;            currentDirection = CharacterDirection.RIGHT,</b>
+<b class="nc">&nbsp;            currentDirection = PlayerDirection.RIGHT,</b>
 <b class="nc">&nbsp;            bodyColor = SnekOrange,</b>
 <b class="nc">&nbsp;            headColor = SnekOrangeHead,</b>
 <b class="nc">&nbsp;            score = 0</b>

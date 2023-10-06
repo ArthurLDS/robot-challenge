@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 
 private val colorScheme = darkColorScheme(
     primary = BackgroundColor,
-    secondary = SnekPink,
+    secondary = PlayerPink,
     tertiary = BackgroundColor,
     background = BackgroundColor,
     onPrimary = Color.White,
@@ -15,7 +15,7 @@ private val colorScheme = darkColorScheme(
 )
 
 @Composable
-fun RobosnekTheme(content: @Composable () -> Unit) {
+fun RobogameTheme(content: @Composable () -> Unit) {
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
