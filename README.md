@@ -21,7 +21,9 @@ The app contains all of the required features as well as some fun bonus features
 
    - *Note:* Boards larger than 50x50 are pretty hard to see.
 - 🍒 **BONUS: Up to 4 Players**: Its possible to increase the number of Players until 4. By default the quantity was set to 2, but you can change it updating the GameRepository.
-   
+
+  ![image](https://github.com/ArthurLDS/robot-challenge/assets/18702590/a2065de4-7501-49b0-b0d2-cc609cc1e75d)
+
 
 ## Technical Features
 - UI interface developed using `Jetpack Compose`.
