@@ -22,25 +22,24 @@ The app contains all of the required features as well as some fun bonus features
    - *Note:* Boards larger than 50x50 are pretty hard to see.
 - 🍒 **BONUS: Up to 4 Players**: Its possible to increase the number of Players until 4. By default the quantity was set to 2, but you can change it updating the GameRepository.
 
-  ![image](https://github.com/ArthurLDS/robot-challenge/assets/18702590/a2065de4-7501-49b0-b0d2-cc609cc1e75d)
-
-
 ## Technical Features
 - UI interface developed using `Jetpack Compose`.
 - Implementation of dependency injection using `Koin`.
 - Handling of data made by Kotlin `State Flow`.
 - Use of Android Architecture Components best practices in general.
 - Code written seeking to maintain the best Clean Code practices.
-- Unit test coverage in View Models and Repositories, using `Mockk` and `JUnit`.
+- Unit test coverage in View Models, Models and Repositories, using `Mockk` and `JUnit`.
 
-![image](https://github.com/ArthurLDS/robot-challenge/assets/18702590/f5f2e59b-6b2d-4719-95b2-61e76540e218)
+<img width="433" alt="image" src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/1762df43-3dcf-4c82-8745-20a51d1ba6a0">
 
-![image](https://github.com/ArthurLDS/robot-challenge/assets/18702590/506f9526-d233-47f9-884c-e152c774aec6)
+<img width="430" alt="image" src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/744cbedb-8f75-45b9-af0d-1d4c97437cb9">
+
+<img width="416" alt="image" src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/5a767537-5013-43ca-b160-1db574fa118f">
 
 ## Architecture and Design Patterns
 - The APP architecture was built based on some **Clean Architecture** concepts, but does not implement all of its details. The innovative architecture consists of 3 layers, data (infrastructure, communication with APIs, etc.), domain (negotiation rules and definition of contacts) and presentation (visualization part of the application).
 
-  <img width="650" alt="image" src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/f36f51c1-cfec-4808-a80e-fa6f5291646c">
+   <img width="700" alt="image" src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/6020144f-7596-4717-80de-3a5840fdc6fa">
 
 - The application uses **MVVM** as a Pattern for the presentation layer, as recommended by Google itself.
 - Engine of the game is stored in the class **GameEngine**. This class abstract all the rules and game logic.
@@ -60,11 +59,4 @@ As seguintes bibliotecas e frameworks foram usadas na construção do projeto:
 
 | 7x7 Board | 10x10 Board | 4 Players |
 | :---:   | :---: | :---: |
-| <video width=200 src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/ff00aab3-1eae-476f-bfce-7584a0add503"/> | <video src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/df4d5cd0-c216-44c3-b2a1-aa6a6d5b60ab"/> | <video src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/de248333-f80f-4363-bc0c-908ab8f60d11"/>
-
-
-
-
-
-
-
+| <video width=200 src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/6f80443d-e0f5-4764-9a1c-05ee78f2e0e6"/> | <video src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/c4839305-2634-4110-b3c7-dc9673ad300a"/> | <video src="https://github.com/ArthurLDS/robot-challenge/assets/18702590/20854713-c269-4a47-8d80-9e7b13cb9631"/>
