@@ -18,8 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,8 +30,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.robot_game_play.R
-import com.example.robot_game_play.domain.models.Player
 import com.example.robot_game_play.domain.models.GameState
+import com.example.robot_game_play.domain.models.Player
 import com.example.robot_game_play.presentation.theme.FoodColor
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -42,23 +42,19 @@ class GameActivity : BaseActivity() {
     @Composable
     override fun Content() {
         Column {
-            LaunchedEffect(Unit) {
-                viewModel.initGame()
-            }
-            GameScreen()
+            val state by viewModel.gameState.collectAsState()
+            val boardSize = viewModel.getBoardSize()
+            state?.let { GameScreen(it, boardSize) }
         }
     }
 
     @Composable
-    fun GameScreen() {
-        val state = viewModel.gameState.collectAsState(initial = null)
-        val boardSize = viewModel.getBoardSize()
-
+    fun GameScreen(state: GameState, boardSize: Int) {
         Column(
             modifier = Modifier.padding(2.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            state.value?.let { gameState ->
+            state.let { gameState ->
                 BoxWithConstraints(Modifier.padding(16.dp)) {
                     GameStats()
                 }

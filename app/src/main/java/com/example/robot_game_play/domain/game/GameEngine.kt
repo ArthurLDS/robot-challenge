@@ -26,7 +26,7 @@ class GameEngine {
         )
     }
 
-    private fun initPlayerFood(): Pair<Int, Int> = randomCoord(cornerCoords)
+    private fun initPlayerFood(): Pair<Int, Int> = randomCoord(getCornerCoords())
 
     private fun randomCoord(exclude: List<Pair<Int, Int>>? = null): Pair<Int, Int> {
         val coord = Pair(
@@ -105,7 +105,7 @@ class GameEngine {
         }
     }
 
-    private val cornerCoords = listOf(
+    private fun getCornerCoords() = listOf(
         Pair(boardSize - 1, 0),
         Pair(0, boardSize - 1),
         Pair(0, 0),
@@ -134,7 +134,7 @@ class GameEngine {
         // just try to move!
         moveRandomly(head, foodCoord, validDirections)?.let { return it }
 
-        // Worst case, pick one at random lol
+        // Worst case, pick one at random
         return validDirections[rand(validDirections.size)]
     }
 
@@ -143,17 +143,17 @@ class GameEngine {
         food: Pair<Int, Int>,
         validDirections: List<MoveDirection>
     ): MoveDirection? {
-        val xDistanceToFood = head.first - food.first
-        val yDistanceToFood = head.second - food.second
+        val xDistanceToFood = kotlin.math.abs(head.first - food.first)
+        val yDistanceToFood = kotlin.math.abs(head.second - food.second)
 
         var directionToMove: MoveDirection? = null
 
-        if (kotlin.math.abs(xDistanceToFood) > kotlin.math.abs(yDistanceToFood)) {
+        if (xDistanceToFood > yDistanceToFood) {
             // try moving left or right first
             tryMovingHorizontal(validDirections, head.first, food.first)?.let {
                 directionToMove = it
             }
-        } else if (kotlin.math.abs(xDistanceToFood) < kotlin.math.abs(yDistanceToFood)) {
+        } else if (xDistanceToFood < yDistanceToFood) {
             // try moving up or down
             tryMovingVertical(validDirections, head.second, food.second)?.let {
                 directionToMove = it
@@ -215,12 +215,12 @@ class GameEngine {
         foodCoord: Pair<Int, Int>
     ): Pair<List<Player>, Pair<Int, Int>?> {
 
-        var currentPlayer = playerList[currentPlayerTurn]
-        val moveDirection = calculateOptimalMovementBasic(currentPlayer.body.first(), playerList, foodCoord)
+        val currentPlayer: Player = playerList[currentPlayerTurn]
+        val nextMoveDirection = calculateOptimalMovementBasic(currentPlayer.body.first(), playerList, foodCoord)
         val newPlayerList = playerList.toMutableList()
 
-        val newPlayer = if (moveDirection != null) {
-            createNewPlayer(currentPlayer, moveDirection)
+        val newPlayer = if (nextMoveDirection != null) {
+            makeNewMovement(currentPlayer, nextMoveDirection)
         } else {
             currentPlayer.copy(currentDirection = null)
         }
@@ -233,7 +233,7 @@ class GameEngine {
         }
     }
 
-    private fun createNewPlayer(currentPlayer: Player, moveDirection: MoveDirection): Player {
+    private fun makeNewMovement(currentPlayer: Player, moveDirection: MoveDirection): Player {
         val newPlayerBody = currentPlayer.body.toMutableList()
         val newHead = nextPlayerCoord(currentPlayer.body.first(), moveDirection)
         newPlayerBody.add(0, newHead)
@@ -243,20 +243,19 @@ class GameEngine {
         )
     }
 
-    private fun checkFoodEaten(currentPlayer: Player, foodCoord: Pair<Int, Int>): Boolean {
-        return (currentPlayer.body.first() == foodCoord)
-    }
+    private fun checkFoodEaten(currentPlayer: Player, foodCoord: Pair<Int, Int>) =
+        currentPlayer.body.first() == foodCoord
 
     private fun onFoodEaten(
         playerList: MutableList<Player>,
         currentPlayerTurn: Int
     ): Pair<List<Player>, Pair<Int, Int>> {
-        val newFoodCoord = randomCoord()
+        val newFoodCoord = randomCoord(getCornerCoords())
         for (player in playerList) {
             if (player.number == currentPlayerTurn) {
                 player.score++
             }
-            player.body = listOf(randomCoord(listOf(newFoodCoord)))
+            player.setToInitialPosition(boardSize)
             player.currentDirection = MoveDirection.RIGHT
         }
 
@@ -269,7 +268,6 @@ class GameEngine {
         currentPlayerTurn: Int,
         currentFoodCoord: Pair<Int, Int>
     ): GameState {
-        val playerList = playerList
         val newPlayerList = movePlayer(playerList, currentPlayerTurn, currentFoodCoord)
         val nextTurn =
             if (newPlayerList.second != null) rand(numPlayers) else updatePlayerTurn(currentPlayerTurn)
@@ -310,18 +308,17 @@ class GameEngine {
         }
     }
 
-    fun playTurn(state: GameState): GameState {
+    fun playTurn(state: GameState, currentPlayerTurn: Int): GameState {
         with(state) {
-            val currentPlayerTurn = currentPlayerTurn
             val currentPlayer = playerList[currentPlayerTurn]
             val currentFoodCoord = foodCoord
 
             // Check if the player is stuck
-            if (currentPlayer.currentDirection != null) {
-                return updateNotStuckPlayer(state, playerList, currentPlayerTurn, currentFoodCoord)
+            return if (currentPlayer.currentDirection != null) {
+                updateNotStuckPlayer(state, playerList, currentPlayerTurn, currentFoodCoord)
             } else {
                 // check if all players are stuck
-                return updateStuckPlayer(state, playerList, currentPlayerTurn)
+                updateStuckPlayer(state, playerList, currentPlayerTurn)
             }
         }
     }

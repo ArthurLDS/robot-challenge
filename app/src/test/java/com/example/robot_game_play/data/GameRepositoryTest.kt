@@ -2,11 +2,11 @@ package com.example.robot_game_play.data
 
 import com.example.robot_game_play.testData.TestData.CHARACTER_LIST_DATA
 import com.example.robot_game_play.testData.TestData.CHARACTER_LIST_OF_THREE_DATA
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
-import com.google.common.truth.Truth.assertThat
 
 @RunWith(JUnit4::class)
 class GameRepositoryTest {

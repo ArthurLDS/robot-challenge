@@ -6,6 +6,7 @@ import com.example.robot_game_play.domain.game.GameEngine
 import com.example.robot_game_play.domain.models.GameState
 import com.example.robot_game_play.domain.repository.GameRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,28 +23,34 @@ class GameViewModel(
     private val _gameState: MutableStateFlow<GameState?> = MutableStateFlow(null)
     val gameState = _gameState.asStateFlow()
 
-    fun initGame() {
+    init {
         val playersQuantity = gameRepository.getPlayersQuantity()
         val boardSize = getBoardSize()
         val players = gameRepository.getPlayers(playersQuantity, boardSize)
 
         _gameState.update { gameEngine.initGameState(players, playersQuantity, boardSize) }
 
-        playTurn()
+        play(playersQuantity)
     }
 
-    fun getBoardSize() = gameRepository.getBoardSize()
-
-    private fun playTurn() {
-        viewModelScope.launch(Dispatchers.Default) {
+    private fun play(playersQuantity: Int) {
+        viewModelScope.launch {
             while (true) {
-                delay(TURN_DELAY)
-
-                _gameState.update {
-                    it?.let { gameEngine.playTurn(it) }
+                for (playerNumber in 0 until playersQuantity ) {
+                    async(Dispatchers.Default) { playTurn(playerNumber) }.await()
                 }
             }
         }
     }
+
+    private suspend fun playTurn(player: Int) {
+        _gameState.value?.let {
+            val state = gameEngine.playTurn(it, player)
+            _gameState.update { state }
+        }
+        delay(TURN_DELAY)
+    }
+
+    fun getBoardSize() = gameRepository.getBoardSize()
 
 }
