@@ -37,7 +37,7 @@ class GameViewModel(
         viewModelScope.launch {
             while (true) {
                 for (playerNumber in 0 until playersQuantity ) {
-                    async(Dispatchers.Default) { playTurn(playerNumber) }.await()
+                    async { playTurn(playerNumber) }.await()
                 }
             }
         }
