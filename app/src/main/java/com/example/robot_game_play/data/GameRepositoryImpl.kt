@@ -49,7 +49,7 @@ class GameRepositoryImpl : GameRepository {
         ),
     ).take(quantity)
 
-    override fun getPlayersQuantity(): Int = 4
+    override fun getPlayersQuantity(): Int = 2
 
     override fun getBoardSize(): Int = 7
 
