@@ -36,9 +36,11 @@ class GameViewModel(
     private fun play(playersQuantity: Int) {
         viewModelScope.launch {
             while (true) {
-                for (playerNumber in 0 until playersQuantity ) {
-                    async { playTurn(playerNumber) }.await()
-                }
+                    val player1 = async { playTurn(0) }
+                    val player2 = async { playTurn(1) }
+
+                    player1.await()
+                    player2.await()
             }
         }
     }
